@@ -123,35 +123,30 @@ def breadthFirstSearch(problem):
 
 
 def uniformCostSearch(problem):
-    
     ucs_queue = util.PriorityQueue()
-    ucs_queue.push(problem.getStartState(), 0)
     actions = []
-    current_cost = 0
+
+    ucs_queue.push((problem.getStartState(), actions ), 0)
+    visited = []
     #(successor, action, stepCost)
 
     while not ucs_queue.isEmpty():
-        current_state = ucs_queue.pop() #pops lowest priority node
-        
-        if start == False: #not start node
-            current_cost = current_state[2]
-            current_action = current_state[1]
-            current_state = current_state[0]
-
-            if problem.isGoalState(current_state):
-                return actions
-
-            successors = problem.getSuccessors(current_state)
-            actions.append(current_action)
-
-        start = False
-        print("STATE ", current_state)
-        
+        current_state, actions = ucs_queue.pop() #pops lowest priority node
     
-        for state in successors: 
-            ucs_queue.push(state, (current_cost + state[2]))
+        if problem.isGoalState(current_state):
+            return actions
 
-    return actions
+        if current_state not in visited:
+            successors = problem.getSuccessors(current_state)
+
+            for new_state in successors:
+                if new_state[0] not in visited:
+                    new_actions = actions + [new_state[1]]
+                    ucs_queue.push( (new_state[0], new_actions), problem.getCostOfActions(new_actions) )
+        
+        visited.append(current_state)
+               
+    
 
 def nullHeuristic(state, problem=None):
     """
