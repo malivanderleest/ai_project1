@@ -11,6 +11,8 @@ In search.py, you will implement generic search algorithms which are called
 by Pacman agents (in searchAgents.py).
 """
 
+from asyncio.windows_events import NULL
+from searchAgents import PositionSearchProblem
 import util
 
 class SearchProblem:
@@ -83,27 +85,73 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    done = set()
+    stack = util.Stack()
+    startP = problem.getStartState()
+    startNode = ((startP, []))
+    stack.push(startNode)
+
+    while not stack.isEmpty():
+        currentState, action = stack.pop()
+        if problem.isGoalState(currentState):
+            return action
+        if currentState not in done:
+            done.add(currentState)
+            for n in problem.getSuccessors(currentState):
+                if n[0] not in done:
+                    stack.push((n[0], action+[n[1]]))
+
 
 def breadthFirstSearch(problem):
     """
     Search the shallowest nodes in the search tree first.
     [2nd Edition: p 73, 3rd Edition: p 82]
     """
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    queue = util.Queue()
+    done = set()
+    startP = problem.getStartState()
+    queue.push((startP, []))
+    while not queue.isEmpty():
+        currentState, action = queue.pop()
+        if problem.isGoalState(currentState):
+            return action
+        if currentState not in done:
+            done.add(currentState)
+            for n in problem.getSuccessors(currentState):
+                if n[0] not in done:
+                    queue.push((n[0], action+[n[1]]))
+
 
 def uniformCostSearch(problem):
-    "Search the node of least total cost first. "
-    print ("Start:", problem.getStartState())
-    print ("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print ("Start's successors:", problem.getSuccessors(problem.getStartState()))
     
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    return  [s,s,w,s,w,w,s,w]
+    ucs_queue = util.PriorityQueue()
+    ucs_queue.push(problem.getStartState(), 0)
+    actions = []
+    current_cost = 0
+    #(successor, action, stepCost)
+
+    while not ucs_queue.isEmpty():
+        current_state = ucs_queue.pop() #pops lowest priority node
+        
+        if start == False: #not start node
+            current_cost = current_state[2]
+            current_action = current_state[1]
+            current_state = current_state[0]
+
+            if problem.isGoalState(current_state):
+                return actions
+
+            successors = problem.getSuccessors(current_state)
+            actions.append(current_action)
+
+        start = False
+        print("STATE ", current_state)
+        
+    
+        for state in successors: 
+            ucs_queue.push(state, (current_cost + state[2]))
+
+    return actions
 
 def nullHeuristic(state, problem=None):
     """
