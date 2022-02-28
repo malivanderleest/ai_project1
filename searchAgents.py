@@ -475,7 +475,7 @@ def foodHeuristic(state, problem):
     minMazeDist = mazeDistance(position, foodList[minDistIndex], problem.startingGameState)
     maxMazeDist = mazeDistance(position, foodList[maxDistIndex], problem.startingGameState)
 
-    return (minMazeDist + maxMazeDist)
+    return (minMazeDist + maxMazeDist)/2
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
@@ -502,8 +502,7 @@ class ClosestDotSearchAgent(SearchAgent):
         walls = gameState.getWalls()
         problem = AnyFoodSearchProblem(gameState)
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.bfs(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -537,9 +536,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         that will complete the problem definition.
         """
         x,y = state
-
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # returns true if food is located at the state coordinates
+        return self.food[x][y]
 
 ##################
 # Mini-contest 1 #
