@@ -11,7 +11,7 @@ In search.py, you will implement generic search algorithms which are called
 by Pacman agents (in searchAgents.py).
 """
 
-#from asyncio.windows_events import NULL
+from asyncio.windows_events import NULL
 from searchAgents import PositionSearchProblem
 import util
 
