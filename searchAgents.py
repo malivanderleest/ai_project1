@@ -292,6 +292,13 @@ class CornersProblem(search.SearchProblem):
                 return len(visitedCorners) == 4
         return False
 
+    def getCostOfActions(self, actions):
+        """
+        Returns the cost of a particular sequence of actions.  If those actions
+        include an illegal move, return 999999
+        """
+        return 0
+
     def getSuccessors(self, state):
         """
         Returns successor states, the actions they require, and a cost of 1.

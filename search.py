@@ -83,7 +83,7 @@ def depthFirstSearch(problem):
     print "Is the start a goal?", problem.isGoalState(problem.getStartState())
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
-    done = set()
+    done = []
     stack = util.Stack()
     startP = problem.getStartState()
     startNode = ((startP, []))
@@ -94,7 +94,7 @@ def depthFirstSearch(problem):
         if problem.isGoalState(currentState):
             return action
         if currentState not in done:
-            done.add(currentState)
+            done.append(currentState)
             for n in problem.getSuccessors(currentState):
                 if n[0] not in done:
                     stack.push((n[0], action+[n[1]]))
@@ -105,7 +105,7 @@ def breadthFirstSearch(problem):
     [2nd Edition: p 73, 3rd Edition: p 82]
     """
     queue = util.Queue()
-    done = set()
+    done = []
     startP = problem.getStartState()
     queue.push((startP, []))
     while not queue.isEmpty():
@@ -113,7 +113,7 @@ def breadthFirstSearch(problem):
         if problem.isGoalState(currentState):
             return action
         if currentState not in done:
-            done.add(currentState)
+            done.append(currentState)
             for n in problem.getSuccessors(currentState):
                 if n[0] not in done:
                     queue.push((n[0], action+[n[1]]))
@@ -151,7 +151,6 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
-    "Search the node that has the lowest combined cost and heuristic first."
     "Search the node that has the lowest combined cost and heuristic first."
     astar_queue = util.PriorityQueue()
     actions = []
