@@ -11,8 +11,6 @@ In search.py, you will implement generic search algorithms which are called
 by Pacman agents (in searchAgents.py).
 """
 
-from asyncio.windows_events import NULL
-from searchAgents import PositionSearchProblem
 import util
 
 class SearchProblem:
@@ -101,7 +99,6 @@ def depthFirstSearch(problem):
                 if n[0] not in done:
                     stack.push((n[0], action+[n[1]]))
 
-
 def breadthFirstSearch(problem):
     """
     Search the shallowest nodes in the search tree first.
@@ -121,8 +118,8 @@ def breadthFirstSearch(problem):
                 if n[0] not in done:
                     queue.push((n[0], action+[n[1]]))
 
-
 def uniformCostSearch(problem):
+    "Search the node of least total cost first. "
     ucs_queue = util.PriorityQueue()
     actions = []
 
@@ -145,8 +142,6 @@ def uniformCostSearch(problem):
                     ucs_queue.push( (new_state[0], new_actions), problem.getCostOfActions(new_actions) )
         
         visited.append(current_state)
-               
-    
 
 def nullHeuristic(state, problem=None):
     """
@@ -156,6 +151,7 @@ def nullHeuristic(state, problem=None):
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
+    "Search the node that has the lowest combined cost and heuristic first."
     "Search the node that has the lowest combined cost and heuristic first."
     astar_queue = util.PriorityQueue()
     actions = []
