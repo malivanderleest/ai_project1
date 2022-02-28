@@ -293,11 +293,18 @@ class CornersProblem(search.SearchProblem):
         return False
 
     def getCostOfActions(self, actions):
-        """
-        Returns the cost of a particular sequence of actions.  If those actions
-        include an illegal move, return 999999
-        """
-        return 0
+        """Returns the cost of a particular sequence of actions.  If those actions
+        include an illegal move, return 999999"""
+        x,y= self.getStartState()[0]
+        cost = 0
+        for action in actions:
+            # figure out the next state and see whether it's legal
+            dx, dy = Actions.directionToVector(action)
+            x, y = int(x + dx), int(y + dy)
+            if self.walls[x][y]:
+                return 999999
+            cost += 1
+        return cost
 
     def getSuccessors(self, state):
         """
